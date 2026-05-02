@@ -367,9 +367,100 @@ p { margin: 0; }
   text-align: center;
   margin-top: 36px;
   color: #604c70;
-  font-style: italic;
   font-size: 1rem;
 }
+.drinks__note strong { color: var(--pink-deep); font-weight: 800; }
+
+/* MENU BOARD */
+.menu {
+  padding: 90px 20px 110px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 58, 160, 0.08) 0, transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(44, 209, 255, 0.08) 0, transparent 40%),
+    #fff;
+}
+.menu__grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+@media (min-width: 880px) {
+  .menu__grid { grid-template-columns: 1.4fr 1fr; gap: 36px; }
+}
+.menu__col {
+  background: #fff;
+  border-radius: 24px;
+  border: 2px solid #ffe1f0;
+  box-shadow: 0 18px 40px rgba(214,31,126,0.10);
+  overflow: hidden;
+}
+.menu__head {
+  padding: 22px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+}
+.menu__head--pink { background: linear-gradient(135deg, var(--pink) 0%, var(--pink-deep) 100%); }
+.menu__head--blue { background: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%); color: var(--ink); }
+.menu__head h3 {
+  font-family: 'Bowlby One', cursive;
+  font-size: 1.7rem;
+  letter-spacing: 0.5px;
+}
+.menu__price {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 2rem;
+  background: rgba(255,255,255,0.25);
+  padding: 4px 16px;
+  border-radius: 999px;
+  border: 2px solid rgba(255,255,255,0.5);
+}
+.menu__head--blue .menu__price {
+  background: rgba(12,7,18,0.15);
+  border-color: rgba(12,7,18,0.4);
+  color: var(--ink);
+}
+.menu__list {
+  list-style: none;
+  margin: 0;
+  padding: 14px 26px 28px;
+}
+.menu__list li {
+  padding: 14px 0;
+  border-bottom: 1px dashed #ffd9eb;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.menu__list li:last-child { border-bottom: 0; }
+.menu__list li strong {
+  font-family: 'Bowlby One', cursive;
+  font-weight: 400;
+  font-size: 1.02rem;
+  color: var(--ink);
+  letter-spacing: 0.2px;
+}
+.menu__list li span {
+  color: #6f5b82;
+  font-size: 0.92rem;
+}
+.menu__byo {
+  padding: 22px 26px 28px;
+  margin: 0 18px 18px;
+  background: linear-gradient(135deg, rgba(255,58,160,0.08), rgba(44,209,255,0.08));
+  border-radius: 16px;
+  border: 2px dashed var(--pink);
+}
+.menu__byo h4 {
+  font-family: 'Bowlby One', cursive;
+  font-size: 1.2rem;
+  margin-bottom: 6px;
+  color: var(--pink-deep);
+}
+.menu__byo p { color: #604c70; font-size: 0.95rem; }
 
 /* HOW */
 .how {
