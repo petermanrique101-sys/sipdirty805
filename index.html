@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="Sip Dirty 805 — mobile dirty soda and dirty energy drink bar serving Ventura County. Book us for birthdays, quinceañeras, and corporate events." />
 <title>Sip Dirty 805 — Mobile Dirty Soda Bar | Ventura County, CA</title>
-<link rel="stylesheet" href="styles.css?v=5" />
+<link rel="stylesheet" href="styles.css?v=6" />
 </head>
 <body>
 
@@ -252,11 +252,11 @@
       <h2>Make your event extra.</h2>
       <p>Birthdays. Quinceañeras. Corporate. Reveals. Tell us about your day — we'll send a price package back.</p>
     </div>
-    <form class="book__form" id="book-form" action="https://api.web3forms.com/submit" method="POST">
-      <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_ACCESS_KEY" />
+    <form class="book__form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="62a10015-3de0-46ab-829b-88ecdb72f0ad" />
       <input type="hidden" name="subject" value="New Sip Dirty 805 Booking Request" />
       <input type="hidden" name="from_name" value="Sip Dirty 805 Website" />
-      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+      <input type="hidden" name="redirect" value="https://sipdirty805.com/thanks.html" />
       <div class="row">
         <label>
           Your Name
@@ -288,10 +288,8 @@
         Tell us about it
         <textarea name="details" rows="3" placeholder="Where, how many guests, what vibe…"></textarea>
       </label>
-      <button type="submit" class="btn btn--primary btn--block" id="book-submit">Get a Price Package</button>
-      <p class="book__hint" id="book-hint">We'll text or email you back within 24 hours.</p>
-      <p class="book__success" id="book-success" style="display:none;">🎉 Got it! We'll be in touch within 24 hours. Check your phone/email.</p>
-      <p class="book__error" id="book-error" style="display:none;">Something went wrong. DM us on Instagram instead → <a href="https://www.instagram.com/sipdirty805/" target="_blank" rel="noopener">@sipdirty805</a></p>
+      <button type="submit" class="btn btn--primary btn--block">Get a Price Package</button>
+      <p class="book__hint">We'll text or email you back within 24 hours.</p>
     </form>
   </div>
 </section>
@@ -328,42 +326,6 @@
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
-
-  // Book Us form — submits to Web3Forms via AJAX
-  const bookForm = document.getElementById('book-form');
-  const bookSubmit = document.getElementById('book-submit');
-  const bookHint = document.getElementById('book-hint');
-  const bookSuccess = document.getElementById('book-success');
-  const bookError = document.getElementById('book-error');
-
-  bookForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    bookSubmit.disabled = true;
-    bookSubmit.textContent = 'Sending…';
-    bookError.style.display = 'none';
-
-    try {
-      const formData = new FormData(bookForm);
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      });
-      const data = await res.json();
-      if (data.success) {
-        bookForm.reset();
-        bookForm.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled = true);
-        bookHint.style.display = 'none';
-        bookSuccess.style.display = 'block';
-      } else {
-        throw new Error(data.message || 'Submit failed');
-      }
-    } catch (err) {
-      bookError.style.display = 'block';
-      bookSubmit.disabled = false;
-      bookSubmit.textContent = 'Get a Price Package';
-    }
-  });
 </script>
 </body>
 </html>
