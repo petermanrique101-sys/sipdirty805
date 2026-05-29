@@ -5,10 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="Sip Dirty 805 — mobile dirty soda and dirty energy drink bar serving Ventura County. Book us for birthdays, quinceañeras, and corporate events." />
 <title>Sip Dirty 805 — Mobile Dirty Soda Bar | Ventura County, CA</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Permanent+Marker&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=3" />
+<link rel="stylesheet" href="styles.css?v=5" />
 </head>
 <body>
 
@@ -231,8 +228,8 @@
 
 <section class="events" id="events">
   <div class="events__inner">
-    <div class="events__media">
-      <img src="assets/popup-flyer.jpg" alt="Sip Dirty 805 pop-up event flyer — graffiti style, make it extra, keep it dirty" loading="lazy" />
+    <div class="events__media events__media--logo">
+      <img src="assets/logo.jpg" alt="Sip Dirty 805 graffiti logo" loading="lazy" class="events__logo" />
     </div>
     <div class="events__copy">
       <span class="eyebrow eyebrow--green">Pop-Ups</span>
@@ -255,21 +252,25 @@
       <h2>Make your event extra.</h2>
       <p>Birthdays. Quinceañeras. Corporate. Reveals. Tell us about your day — we'll send a price package back.</p>
     </div>
-    <form class="book__form" onsubmit="event.preventDefault(); openIG();">
+    <form class="book__form" id="book-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_ACCESS_KEY" />
+      <input type="hidden" name="subject" value="New Sip Dirty 805 Booking Request" />
+      <input type="hidden" name="from_name" value="Sip Dirty 805 Website" />
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
       <div class="row">
         <label>
           Your Name
-          <input type="text" required placeholder="Jane Doe" />
+          <input type="text" name="name" required placeholder="Jane Doe" />
         </label>
         <label>
           Phone or Email
-          <input type="text" required placeholder="(805) 555-0123" />
+          <input type="text" name="contact" required placeholder="(805) 555-0123" />
         </label>
       </div>
       <div class="row">
         <label>
           Event Type
-          <select>
+          <select name="event_type">
             <option>Birthday</option>
             <option>Quinceañera</option>
             <option>Corporate / Office</option>
@@ -280,15 +281,17 @@
         </label>
         <label>
           Event Date
-          <input type="date" />
+          <input type="date" name="event_date" />
         </label>
       </div>
       <label>
         Tell us about it
-        <textarea rows="3" placeholder="Where, how many guests, what vibe…"></textarea>
+        <textarea name="details" rows="3" placeholder="Where, how many guests, what vibe…"></textarea>
       </label>
-      <button type="submit" class="btn btn--primary btn--block">Get a Price Package</button>
-      <p class="book__hint">Submitting opens our Instagram DMs — that's where we send packages.</p>
+      <button type="submit" class="btn btn--primary btn--block" id="book-submit">Get a Price Package</button>
+      <p class="book__hint" id="book-hint">We'll text or email you back within 24 hours.</p>
+      <p class="book__success" id="book-success" style="display:none;">🎉 Got it! We'll be in touch within 24 hours. Check your phone/email.</p>
+      <p class="book__error" id="book-error" style="display:none;">Something went wrong. DM us on Instagram instead → <a href="https://www.instagram.com/sipdirty805/" target="_blank" rel="noopener">@sipdirty805</a></p>
     </form>
   </div>
 </section>
@@ -325,7 +328,42 @@
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
-  function openIG(){ window.open('https://www.instagram.com/sipdirty805/', '_blank'); }
+
+  // Book Us form — submits to Web3Forms via AJAX
+  const bookForm = document.getElementById('book-form');
+  const bookSubmit = document.getElementById('book-submit');
+  const bookHint = document.getElementById('book-hint');
+  const bookSuccess = document.getElementById('book-success');
+  const bookError = document.getElementById('book-error');
+
+  bookForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    bookSubmit.disabled = true;
+    bookSubmit.textContent = 'Sending…';
+    bookError.style.display = 'none';
+
+    try {
+      const formData = new FormData(bookForm);
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+      const data = await res.json();
+      if (data.success) {
+        bookForm.reset();
+        bookForm.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled = true);
+        bookHint.style.display = 'none';
+        bookSuccess.style.display = 'block';
+      } else {
+        throw new Error(data.message || 'Submit failed');
+      }
+    } catch (err) {
+      bookError.style.display = 'block';
+      bookSubmit.disabled = false;
+      bookSubmit.textContent = 'Get a Price Package';
+    }
+  });
 </script>
 </body>
 </html>
